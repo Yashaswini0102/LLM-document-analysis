@@ -2,35 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
+    <title>Upload Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .error {
-            color: red;
-            font-weight: bold;
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            margin: 0; /* Remove default margin */
         }
-        .success {
-            color: green;
+        .upload-card {
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Responsive width */
+            max-width: 500px; /* Max width for the card */
+        }
+        .success-message {
+            color: #28a745;
+        }
+        .error-message {
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <h2>Upload a PDF or DOCX file</h2>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
+    <div class="upload-card">
+        <h1 class="text-center">Upload Document</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="file" accept=".pdf,.docx,.jpg,.png" required class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Upload</button>
+        </form>
 
-    <!-- Display flash messages -->
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message|safe }}</li>
-                {% endfor %}
-            </ul>
+        <!-- Conditionally display the success or error message -->
+        {% if message %}
+            <div class="mt-3 text-center {% if 'successfully' in message %}success-message{% else %}error-message{% endif %}">
+                <p>{{ message }}</p>
+            </div>
         {% endif %}
-    {% endwith %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
